@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 
 const {
   getAllStudents,
@@ -8,6 +7,8 @@ const {
   updateStudentById,
   deleteStudent,
 } = require("../controllers/students");
+
+const router = express.Router();
 
 router.get("/", getAllStudents);
 router.get("/:id", getStudentbyId);

@@ -1,3 +1,5 @@
+const { Student } = require("../models/mongo");
+
 //fake database
 let students = [
   {
@@ -14,17 +16,20 @@ let students = [
   },
 ];
 
-const getAllStudents = (req, res, next) => {
+const getAllStudents = async (req, res, next) => {
   const { filter } = req.query;
 
-  if (filter) {
-    const filteredStudents = students.filter((student) => {
-      return student.name.toUpperCase() === filter.toUpperCase();
-    });
-    res.status(200).json({ data: filteredStudents });
-  } else {
-    res.status(200).json({ data: students });
-  }
+  const students = await Student.find({});
+  res.status(200).json({ data: students });
+
+  // if (filter) {
+  //   const filteredStudents = students.filter((student) => {
+  //     return student.name.toUpperCase() === filter.toUpperCase();
+  //   });
+  //   res.status(200).json({ data: filteredStudents });
+  // } else {
+  //   res.status(200).json({ data: students });
+  // }
 };
 
 const getStudentbyId = (req, res, next) => {
