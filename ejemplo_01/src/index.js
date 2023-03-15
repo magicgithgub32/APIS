@@ -1,17 +1,25 @@
 const express = require("express");
+require("./config/db");
+const mainRouter = require("./routes");
 
 const app = express();
+app.use(express.json());
 
-const router = express.Router();
+//Middleware de rutas http://localhost:${PORT}/api
+app.use("/api", mainRouter);
 
-router.get("/ping", (req, res, next) => {
-  res.status(200).send("Pong!");
+//Controlador de rutas no encontradas
+app.use("*", (req, res, next) => {
+  res.status(404).json({ data: "not found" });
 });
 
-app.use("/api", router);
+//Controlador de errores generales del servidor
+app.use((error, req, res, next) => {
+  res.status(500).json({ data: "Internal server error" });
+});
 
 const PORT = 3001;
 
 app.listen(PORT, () => {
-  console.log(`Aplicación corriendo: http://localhost:${PORT}`);
+  console.log(`La aplicación está corriendo: http://localhost:${PORT}`);
 });

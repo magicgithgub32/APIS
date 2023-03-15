@@ -1,94 +1,49 @@
-const { Student } = require("../models/mongo");
-
-//fake database
-let students = [
-  {
-    id: 1,
-    name: "Alberto",
-  },
-  {
-    id: 2,
-    name: "Cristian",
-  },
-  {
-    id: 3,
-    name: "Jose",
-  },
-];
+const {
+  getAllStudentsFromDB,
+  getStudentbyIdFromDB,
+  createStudentInDB,
+  updateStudentByIdInDB,
+  deleteStudentFromDB,
+} = require("../repositories/students");
 
 const getAllStudents = async (req, res, next) => {
   const { filter } = req.query;
 
-  const students = await Student.find({});
+  const students = await getAllStudentsFromDB(filter);
   res.status(200).json({ data: students });
-
-  // if (filter) {
-  //   const filteredStudents = students.filter((student) => {
-  //     return student.name.toUpperCase() === filter.toUpperCase();
-  //   });
-  //   res.status(200).json({ data: filteredStudents });
-  // } else {
-  //   res.status(200).json({ data: students });
-  // }
 };
 
-const getStudentbyId = (req, res, next) => {
+const getStudentById = async (req, res, next) => {
   const { id } = req.params;
-
-  const student = students.find((student) => {
-    return student.id.toString() === id;
-  });
-
+  const student = await getStudentbyIdFromDB(id);
   res.status(200).json({ data: student });
 };
 
-const createStudent = (req, res, next) => {
-  const newStudent = {
+const createStudent = async (req, res, next) => {
+  const newStudent = await createStudentInDB({
     name: req.body.name,
-    id: students.length + 1,
-  };
-
-  students.push(newStudent);
-
-  res.status(201).json({
-    data: newStudent,
   });
+  res.status(201).json({ data: newStudent });
 };
 
-const updateStudentById = (req, res, next) => {
+const updateStudentById = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
 
-  //Simulando la actualización en DB
-  students = students.map((student) => {
-    if (student.id.toString() === id) {
-      return {
-        ...student,
-        name,
-      };
-    } else {
-      return student;
-    }
-  });
-
-  //Simulo la búsqueda del student en DB actualizada
-  const updatedStudent = students.find(
-    (student) => student.id.toString() === id
-  );
-  res.status(200).json({ data: updatedStudent });
+  const student = await updateStudentByIdInDB(id, { name });
+  res.status(200).json({ data: student });
 };
 
-const deleteStudent = (req, res, next) => {
-  const { id } = params;
+const deleteStudent = async (req, res, next) => {
+  const { id } = req.params;
 
-  students = student.filter((student) => {
-    return student.id.toString() !== id;
-  });
+  await deleteStudentFromDB(id);
+  res.status(200).json({ data: "ok" });
 };
 
 module.exports = {
   getAllStudents,
-  getStudentbyId,
+  getStudentById,
   createStudent,
   updateStudentById,
   deleteStudent,

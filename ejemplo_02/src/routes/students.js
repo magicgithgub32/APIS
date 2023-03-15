@@ -1,8 +1,7 @@
 const express = require("express");
-
 const {
   getAllStudents,
-  getStudentbyId,
+  getStudentById,
   createStudent,
   updateStudentById,
   deleteStudent,
@@ -11,7 +10,7 @@ const {
 const router = express.Router();
 
 router.get("/", getAllStudents);
-router.get("/:id", getStudentbyId);
+router.get("/:id", getStudentById);
 router.post("/", createStudent);
 router.put("/:id", updateStudentById);
 router.delete("/:id", deleteStudent);
