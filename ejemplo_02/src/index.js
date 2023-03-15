@@ -14,6 +14,7 @@ app.use("*", (req, res, next) => {
 
 //Controlador de errores generales del servidor
 app.use((error, req, res, next) => {
+  console.log(">>>>>Server error:", error);
   res.status(500).json({ data: "Internal server error" });
 });
 

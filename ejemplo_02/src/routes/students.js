@@ -6,12 +6,13 @@ const {
   updateStudentById,
   deleteStudent,
 } = require("../controllers/students");
+const { isAuthenticated } = require("../middlewares/authenticated");
 
 const router = express.Router();
 
 router.get("/", getAllStudents);
 router.get("/:id", getStudentById);
-router.post("/", createStudent);
+router.post("/", isAuthenticated, createStudent);
 router.put("/:id", updateStudentById);
 router.delete("/:id", deleteStudent);
 
