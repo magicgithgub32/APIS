@@ -1,13 +1,10 @@
 var jwt = require("jsonwebtoken");
 const { verifyToken } = require("../config/jwt");
-const TOKEN_SECRET = "supersecret_123456?!";
-
-const AUTH_TOKEN = "MY_SECRET_TOKEN";
 
 const isAuthenticated = (req, res, next) => {
   const { token } = req.query;
 
-  if (token === AUTH_TOKEN) {
+  if (token === process.env.QUERY_AUTH_TOKEN) {
     next();
     return;
   } else {
@@ -15,19 +12,28 @@ const isAuthenticated = (req, res, next) => {
   }
 };
 
+// El front debería mandar así el token:
+// fetch("URL", {
+//   method: "GET",
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// });
+
 const hasValidAuthJwt = (req, res, next) => {
-  (req, res, next) => {
-    try {
-      const { token } = req.query;
-      const payload = verifyToken(token);
+  try {
+    // const { token } = req.query;
+    const { authorization } = req.headers;
+    const [, token] = authorization.split(" ");
 
-      req.user = payload;
+    const payload = verifyToken(token);
 
-      next();
-    } catch (err) {
-      res.status(401).json({ data: "No authenticated!" });
-    }
-  };
+    req.user = payload;
+
+    next();
+  } catch (err) {
+    res.status(401).json({ data: "No authenticated!" });
+  }
 };
 
 module.exports = {

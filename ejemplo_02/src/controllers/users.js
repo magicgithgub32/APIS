@@ -1,4 +1,7 @@
-const { getUSerByIdFromDB } = require("../repositories/users");
+const {
+  getUSerByIdFromDB,
+  updateUserWithAvatarInDB,
+} = require("../repositories/users");
 const { hashPassword, verifyPassword } = require("../config/password");
 const { signToken } = require("../config/jwt");
 const {
@@ -52,4 +55,12 @@ const getUser = async (req, res) => {
   res.status(200).json({ data: user });
 };
 
-module.exports = { registerUser, loginUser, getUser };
+const updateUserAvatar = async (req, res, next) => {
+  const { path } = req.file;
+  const { id } = req.user;
+
+  const user = await updateUserWithAvatarInDB(id, path);
+  res.status(201).json({ data: path });
+};
+
+module.exports = { registerUser, loginUser, getUser, updateUserAvatar };

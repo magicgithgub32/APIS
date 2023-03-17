@@ -5,9 +5,7 @@ mongoose.set("strictQuery", false);
 mongoose.set("strictPopulate", false);
 
 mongoose
-  .connect(
-    "mongodb+srv://Rubcs:magic32@learningmongo.infj7gl.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Conectado a mongoDB");
   })

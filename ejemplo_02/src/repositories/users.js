@@ -24,7 +24,16 @@ const getUSerByEmailFromDB = async (email) => {
 const getUSerByIdFromDB = async (id) => {
   const user = await User.findById({ id }).lean();
   const { password, ...rest } = user;
-  return user;
+  return rest;
 };
 
-module.exports = { createUsertInDB, getUSerByEmailFromDB, getUSerByIdFromDB };
+const updateUserWithAvatarInDB = async (id, path) => {
+  await User.updateOne({ _id: id }, { avatar: path });
+};
+
+module.exports = {
+  createUsertInDB,
+  getUSerByEmailFromDB,
+  getUSerByIdFromDB,
+  updateUserWithAvatarInDB,
+};
