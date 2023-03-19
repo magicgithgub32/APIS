@@ -16,15 +16,15 @@ const createTechnology = async (payload) => {
   return newTech;
 };
 
-const editTechnologyById = async (id) => {
-  const technology = await Technology.findByIdandUpdate(id, payload, {
+const editTechnologyById = async (id, payload) => {
+  const technology = await Technology.findByIdAndUpdate(id, payload, {
     new: true,
   });
   return technology;
 };
 
 const deleteTechnologyById = async (id) => {
-  const technology = await Technology.findbByIdAndDelete(id);
+  const technology = await Technology.findByIdAndDelete(id);
   return technology;
 };
 

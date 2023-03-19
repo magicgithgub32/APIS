@@ -37,9 +37,9 @@ router.put("/technologies/:id", async (req, res, next) => {
   const { id } = req.params;
 
   const updatedTechnology = {
-    ...app(req.body.name ? { name: req.body.name } : {}),
-    ...app(req.body.docs ? { name: req.body.docs } : {}),
-    ...app(req.body.learnt ? { name: req.body.learnt } : {}),
+    ...(req.body.name ? { name: req.body.name } : {}),
+    ...(req.body.docs ? { name: req.body.docs } : {}),
+    ...(req.body.learnt ? { name: req.body.learnt } : {}),
   };
 
   try {
@@ -64,7 +64,7 @@ router.delete("/technologies/:id", async (req, res, next) => {
   }
 });
 
-app.use("./api", router);
+app.use("/api", router);
 
 app.use("*", (req, res) => {
   res.status(404).json({ data: "Not found" });
