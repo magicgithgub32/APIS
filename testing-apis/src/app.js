@@ -1,6 +1,6 @@
 const express = require("express");
-require("./src/config/db");
-const techRepository = require("./src/repositories/technology");
+require("./config/db");
+const techRepository = require("./repositories/technology");
 
 const app = express();
 const router = express.Router();
@@ -20,7 +20,7 @@ router.get("/technologies/:id", async (req, res, next) => {
     const technology = await techRepository.getTechnologyById(id);
     res.status(200).json({ data: technology });
   } catch (err) {
-    next(err);
+    res.status(404).json({ data: "Element not found" });
   }
 });
 
