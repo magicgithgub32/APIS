@@ -2,4 +2,8 @@ const getWithoutSpaces = (text) => {
   return text.split(" ").join("");
 };
 
-module.exports = { getWithoutSpaces };
+const removeWord = (text, word) => {
+  return text.replace(word, "").trim();
+};
+
+module.exports = { getWithoutSpaces, removeWord };
